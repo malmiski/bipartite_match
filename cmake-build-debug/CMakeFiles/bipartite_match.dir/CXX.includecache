@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/malmiski/CLionProjects/bipartite_match/Hungarian.h
+iostream
+-
+vector
+-
+
+/Users/malmiski/CLionProjects/bipartite_match/bipartite_match.cpp
+map
+-
+set
+-
+functional
+-
+tuple
+-
+cmath
+-
+algorithm
+-
+vector
+-
+iostream
+-
+cmath
+-
+Hungarian.h
+/Users/malmiski/CLionProjects/bipartite_match/Hungarian.h
+
+/Users/malmiski/CLionProjects/bipartite_match/main.cpp
+bipartite_match.cpp
+/Users/malmiski/CLionProjects/bipartite_match/bipartite_match.cpp
+
