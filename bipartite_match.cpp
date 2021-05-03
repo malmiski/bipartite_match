@@ -285,7 +285,7 @@ namespace bipartite{
     return make_tuple(free_A, free_B, matches);
   }
 
-  tuple<double, set<match>> bipartite_match_edge_cost_scaling(const set<point> &A, const set<point> &B,  distance_function &dist, double delta, double omega){
+  tuple<double, set<match>> __bipartite_match_edge_cost_scaling(const set<point> &A, const set<point> &B,  distance_function &dist, double delta, double omega){
     int match_size = 0;
     set<match> matches;
     double cost = 0;
@@ -319,12 +319,12 @@ namespace bipartite{
     }
     return make_tuple(cost, matches);
 }
-    tuple<double, set<match>> bipartite_match_edge_cost_scaling(const set<point> &A, const set<point> &B,  distance_function &dist, double delta){
-        const double n_approximate_match = 35484;// Add a call to an n-approximate matching for A and B that runs in O(n^2) time
+    tuple<double, set<match>> bipartite_match_edge_cost_scaling(const set<point> &A, const set<point> &B,  distance_function &dist, double delta, double approximate_cost){
+        const double n_approximate_match = approximate_cost;// Add a call to an n-approximate matching for A and B that runs in O(n^2) time
         double min_cost = INFINITY;
         set<match> min_match;
         for(int i = 0; i<ceil(_log(A.size(), 2)); i++){
-            auto [new_cost, matches] = bipartite_match_edge_cost_scaling(A, B, dist, delta, n_approximate_match/pow(2, i));
+            auto [new_cost, matches] = __bipartite_match_edge_cost_scaling(A, B, dist, delta, n_approximate_match/pow(2, i));
             if(min_cost > new_cost){
                 min_cost = new_cost;
                 min_match = matches;

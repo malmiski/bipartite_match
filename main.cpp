@@ -57,7 +57,7 @@ tuple<set<point>, set<point>, distance_function> load(string filename){
 int main() {
     std::cout << "Hello, World!" << std::endl;
     srand(100); // Seed random to known constant
-    auto [A_, B_, dist_] = load("bipartite_set.txt");
+    auto [A_, B_, dist_] = load("../tests/bipartite_set_1.txt");
     vector<vector<double> > costMatrix = {{10, 19, 8, 15, 0},
                                           {10, 18, 7, 17, 0},
                                           {13, 16, 9, 14, 0},
@@ -78,7 +78,7 @@ int main() {
 //    for (unsigned int x = 0; x < costMatrix.size(); x++)
 //        std::cout << x << "," << assignment[x] << "\t";
 //
-    std::cout << "\nApproximtaion cost: " << acost << std::endl;
+    std::cout << "\nApproximation cost: " << acost << std::endl;
 
     return 0;
 }
