@@ -3,4 +3,4 @@ project(bipartite_match)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(bipartite_match main.cpp Hungarian.cpp bipartite_match.cpp bipartite_match.h)
+add_executable(bipartite_match main.cpp Hungarian.cpp  bipartite_match.h)

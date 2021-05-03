@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/c++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/bipartite_match.dir/main.cpp.o CMakeFiles/bipartite_match.dir/Hungarian.cpp.o CMakeFiles/bipartite_match.dir/bipartite_match.cpp.o -o bipartite_match 
