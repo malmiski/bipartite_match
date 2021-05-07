@@ -1,12 +1,10 @@
 #include <map>
-#include <set>
+#include <unordered_set>
 #include <functional>
 #include <tuple>
 #include <cmath>
 #include <algorithm>
 #include <vector>
-#include <iostream>
-#include <cmath>
 #include "Hungarian.h"
 #include "bipartite_match.h"
 using namespace std;
@@ -18,27 +16,15 @@ namespace bipartite{
     return log(a)/log(base);
   }
 
- template<typename T>
- set<T> intersect(set<T> a, set<T> b){
-   set<T> int_set;
-   set_intersection(a.begin(), a.end(), b.begin(), b.end(), inserter(int_set, int_set.begin()));
-   return int_set;
- }
 
     template<typename T>
-    set<T> difference(set<T> a, set<T> b) {
-        set<T> diff_set;
-        set_difference(a.begin(), a.end(), b.begin(), b.end(), inserter(diff_set, diff_set.begin()));
-        return diff_set;
-    }
-    template<typename T>
-    set<T> symmetric_difference(set<T> a, set<T> b) {
-        set<T> diff_set;
+    unordered_set<T> symmetric_difference(unordered_set<T> &a, unordered_set<T> &b) {
+        unordered_set<T> diff_set(a.size() + b.size());
         set_symmetric_difference(a.begin(), a.end(), b.begin(), b.end(), inserter(diff_set, diff_set.begin()));
         return diff_set;
     }
 
-    tuple<double, set<match>> hungarian_algorithm(set<point> A, set<point> B, const distance_function &dist, double distance_scale){
+    tuple<double, unordered_set<match>> hungarian_algorithm(unordered_set<point> &A, unordered_set<point> &B, const distance_function &dist, double distance_scale){
     // Create a matrix of each (a,b) with the distance dist(a,b) as the value
     vector<vector<double>> cost_matrix;
     vector<point> vector_A(A.size());
@@ -53,7 +39,7 @@ namespace bipartite{
         cost_matrix.push_back(cost);
     }
     vector<int> assignment;
-    set<match> matches;
+    unordered_set<match> matches;
     auto hungarianAlgorithm = HungarianAlgorithm();
     double cost = hungarianAlgorithm.Solve(cost_matrix, assignment);
     for(int i = 0; i<assignment.size(); i++) {
@@ -65,8 +51,8 @@ namespace bipartite{
 
 
 
-  set<match> augment(set<match> &matches, path &aug_path, set<point> &A, map<point, int> &point_to_index, vector<int> &weights){
-    set<match> aug_path_set;
+  unordered_set<match> augment(unordered_set<match> &matches, path &aug_path, unordered_set<point> &A, map<point, int> &point_to_index, vector<int> &weights){
+    unordered_set<match> aug_path_set;
     for(int i = 0; i < aug_path.size() - 1; i++){
       aug_path_set.insert(make_tuple(aug_path[i], aug_path[i+1]));
       int index = point_to_index[aug_path[i]];
@@ -76,20 +62,23 @@ namespace bipartite{
         weights[index] -= 1;
       }
     }
-    set<match> new_match;
+    unordered_set<match> new_match;
     new_match = symmetric_difference<match>(matches, aug_path_set);
     return new_match;
   }
 
   // NOte might need to alter how we are counting vertices as visited, in case we need to determine the
-  void PATH_DFS_HELPER(point &start, path &_path, vector<path> &paths, map<int, set<edge>> &bipartite_graph, vector<point> &A,  set<point> &free_A, map<point, point> &match_map, map<point, int> &pair_to_index, set<point> &visited, set<edge> &eligible_edges){
+  void PATH_DFS_HELPER(point &start, path &_path, vector<path> &paths, map<int, unordered_set<edge>> &bipartite_graph, vector<point> &A,  unordered_set<point> &free_A, map<point, point> &match_map, map<point, int> &pair_to_index, unordered_set<point> &visited, unordered_set<edge> &eligible_edges){
     // Mark this vertex
     visited.insert(start);
     // Next scan all adjacent eligible edges for an unmarked vertex
     int point_index =  pair_to_index[start];
     auto edges = bipartite_graph[point_index];
-    set<edge> eligible_current = intersect<edge>(edges, eligible_edges);
-    for(auto edge_adjacent : eligible_current){
+//    unordered_set<edge> eligible_current = intersect<edge>(edges, eligible_edges);
+    for(auto edge_adjacent : edges){
+        if(eligible_edges.count(edge_adjacent) == 0){
+            continue;
+        }
       auto to_vertex = A[get<1>(edge_adjacent)];
       // If we have visited this vertex already continue
       if(visited.count(to_vertex) == 1){
@@ -117,13 +106,13 @@ namespace bipartite{
   }
 }
 
-  void Path_DFS(map<int, set<edge>> &bipartite_graph, vector<path> &paths, vector<point> &A, vector<point> &B, set<edge> &eligible_edges, set<match> &matches, map<point, int> &point_to_index){
+  void Path_DFS(map<int, unordered_set<edge>> &bipartite_graph, vector<path> &paths, vector<point> &A, vector<point> &B, unordered_set<edge> &eligible_edges, unordered_set<match> &matches, map<point, int> &point_to_index){
     // Generate set of free vertices of A and B
-    set<point> free_A;
-    set<point> free_B;
+    unordered_set<point> free_A(A.begin(), A.end());
+    unordered_set<point> free_B(B.begin(), B.end());
     map<point, point> match_map;
-    copy(A.begin(), A.end(), inserter(free_A, free_A.begin()));
-    copy(B.begin(), B.end(), inserter(free_B, free_B.begin()));
+//    copy(A.begin(), A.end(), inserter(free_A, free_A.begin()));
+//    copy(B.begin(), B.end(), inserter(free_B, free_B.begin()));
     for(match m : matches){
       point from = get<0>(m);
       point to = get<1>(m);
@@ -137,7 +126,7 @@ namespace bipartite{
         match_map[to] = from;
       }
     }
-    set<point> visited;
+    unordered_set<point> visited;
 
     while(!free_B.empty()){
       // Start at a free vertex of B, mark this vertex
@@ -154,27 +143,29 @@ namespace bipartite{
     // from the adjacent eligible edges to find the next starting vertex
     // If there is no such vertex, remove the two recently added vertices and continue
   }
-  set<edge> eligible(map<int, set<edge>> &bipartite_graph, vector<point> &A, vector<point> &B, vector<int> &weights, set<match> &matches){
-    set<edge> eligible_edges;
-    for(int i = A.size(); i<A.size() + B.size(); i++){
-      set<edge> _edges = bipartite_graph[i];
+  unordered_set<edge> eligible(map<int, unordered_set<edge>> &bipartite_graph, vector<point> &A, vector<point> &B, vector<int> &weights, unordered_set<match> &matches){
+    unordered_set<edge> eligible_edges;
+    for(int i = int(A.size()); i<A.size() + B.size(); i++){
+      unordered_set<edge> _edges = bipartite_graph[i];
       for(edge e : _edges) {
           int from = get<0>(e);
           int to = get<1>(e);
           int dist = get<2>(e);
           bool matched = matches.count(make_tuple(B[from - A.size()], A[to]));
-          if (weights[from] + weights[to] == dist && matched) {
-              eligible_edges.insert(e);
-          } else if (weights[from] + weights[to] == dist + 1 && !matched) {
+          int weight_sum = weights[from] + weights[to];
+          bool eligible = (weight_sum == dist && matched) || (weight_sum == (dist + 1) && !matched);
+          if (eligible) {
               eligible_edges.insert(e);
           }
       }
     }
     return eligible_edges;
   }
-  void ADJUST_WEIGHTS_DFS(int _point, set<int> &visited, vector<int> &weights, set<int> &S, set<int> &A,  map<int, set<edge>> &bipartite_graph, set<edge> &eligible_edges){
-    set<edge> horizon = intersect<edge>(bipartite_graph[_point], eligible_edges);
-    for(edge _edge : horizon){
+  void ADJUST_WEIGHTS_DFS(int _point, unordered_set<int> &visited, vector<int> &weights, unordered_set<int> &S, unordered_set<int> &A,  map<int, unordered_set<edge>> &bipartite_graph, unordered_set<edge> &eligible_edges){
+    for(edge _edge : bipartite_graph[_point]){
+        if(eligible_edges.count(_edge) == 0){
+            continue;
+        }
       int to = get<1>(_edge);
       int weight = get<2>(_edge);
       bool matched =  weights[to] + weights[_point] == weight;
@@ -195,14 +186,14 @@ namespace bipartite{
       ADJUST_WEIGHTS_DFS(to, visited, weights, S, A, bipartite_graph, eligible_edges);
     }
   }
-  void adjust_weights(vector<int> &weights, map<int, set<edge>> &bipartite_graph, set<point> &free_B, set<point> &free_A,
-                      set<edge> &eligible_edges, map<point, int> &point_to_index) {
-    set<int> B_reachable;
-    set<int> A_reachable;
+  void adjust_weights(vector<int> &weights, map<int, unordered_set<edge>> &bipartite_graph, unordered_set<point> &free_B, unordered_set<point> &free_A,
+                      unordered_set<edge> &eligible_edges, map<point, int> &point_to_index) {
+    unordered_set<int> B_reachable;
+    unordered_set<int> A_reachable;
     for(point _point : free_B){
-      set<int> B_temp;
-      set<int> A_temp;
-      set<int> visited;
+      unordered_set<int> B_temp;
+      unordered_set<int> A_temp;
+      unordered_set<int> visited;
       // Add the current point to ensure it is counted
       B_reachable.insert(point_to_index[_point]);
       ADJUST_WEIGHTS_DFS(point_to_index[_point], visited, weights, B_temp, A_temp, bipartite_graph, eligible_edges);
@@ -217,27 +208,27 @@ namespace bipartite{
     }
   }
 
-  map<int, set<edge>> create_graph(vector<point> &A, vector<point> &B, distance_function &dist, double distance_scale){
-    map<int, set<edge>> bipartite_graph;
+  map<int, unordered_set<edge>> create_graph(vector<point> &A, vector<point> &B, distance_function &dist, double distance_scale){
+    map<int, unordered_set<edge>> bipartite_graph;
     for(unsigned long i = 0; i<A.size(); i++){
-      set<edge> edges;
+      unordered_set<edge> edges;
       for(auto j = 0; j<B.size(); j++){
         // Create an edge with the index of
         edges.insert(make_tuple(i, A.size() + j, scaled(dist(A[i], B[j]), distance_scale)));
 
         // Add the reverse edge to the other vertex
         if(bipartite_graph.count(int(A.size() + j)) == 0){
-          set<edge> new_edges;
-          bipartite_graph[A.size() + j] = new_edges;
+          unordered_set<edge> new_edges;
+          bipartite_graph[int(A.size() + j)] = new_edges;
         }
-        bipartite_graph[A.size() + j].insert(make_tuple(A.size() + j, i, scaled(dist(A[i], B[j]), distance_scale)));
+        bipartite_graph[int(A.size() + j)].insert(make_tuple(int(A.size() + j), i, scaled(dist(A[i], B[j]), distance_scale)));
       }
       bipartite_graph[int(i)] = edges;
     }
     return bipartite_graph;
   }
 
-  tuple<set<point>, set<point>, set<match>> Phase_Match(set<point> &A, set<point> &B, distance_function &dist, double distance_scale, int stages){
+  tuple<unordered_set<point>, unordered_set<point>, unordered_set<match>> Phase_Match(unordered_set<point> &A, unordered_set<point> &B, distance_function &dist, double distance_scale, int stages){
 
     vector<point> vector_A(A.size());
     vector<point> vector_B(B.size());
@@ -256,22 +247,24 @@ namespace bipartite{
       point_to_index[vector_B[i]] = int(A.size() + i);
     }
     // At first all vertices are free and matches are empty, as we have not begun matching yet
-    set<match> matches;
-    set<point> free_A;
-    set<point> free_B;
+    unordered_set<match> matches;
+    unordered_set<point> free_A;
+    unordered_set<point> free_B;
     // Create the bipartite graph based on the point sets, using array indices
-    map<int, set<edge>> bipartite_graph = create_graph(vector_A, vector_B, dist, distance_scale);
+    map<int, unordered_set<edge>> bipartite_graph = create_graph(vector_A, vector_B, dist, distance_scale);
 
     for(int k = 0; k<stages; k++){
       // Generate set of eligible edges
-      set<edge> eligible_edges = eligible(bipartite_graph, vector_A, vector_B, weights, matches);
+      unordered_set<edge> eligible_edges = eligible(bipartite_graph, vector_A, vector_B, weights, matches);
       vector<path> paths;
       Path_DFS(bipartite_graph, paths, vector_A, vector_B, eligible_edges, matches, point_to_index);
       for(path aug_path : paths){
         matches = augment(matches, aug_path, A, point_to_index, weights);
       }
-      copy(A.begin(), A.end(), inserter(free_A, free_A.begin()));
-      copy(B.begin(), B.end(), inserter(free_B, free_B.begin()));
+      free_A = unordered_set<point>(A.begin(), A.end());
+      free_B = unordered_set<point>(B.begin(), B.end());
+//      copy(A.begin(), A.end(), free_A.begin());
+//      copy(B.begin(), B.end(), inserter(free_B, free_B.begin()));
       for(auto [from, to] : matches){
           free_B.erase(from);
           free_A.erase(to);
@@ -285,14 +278,14 @@ namespace bipartite{
     return make_tuple(free_A, free_B, matches);
   }
 
-  tuple<double, set<match>> __bipartite_match_edge_cost_scaling(const set<point> &A, const set<point> &B,  distance_function &dist, double delta, double omega){
+  tuple<double, unordered_set<match>> __bipartite_match_edge_cost_scaling(const unordered_set<point> &A, const unordered_set<point> &B,  distance_function &dist, double delta, double omega){
     int match_size = 0;
-    set<match> matches;
+    unordered_set<match> matches;
     double cost = 0;
     int n = int(A.size());
     int n_two_thirds = int(pow(n, 2.0/3.0));
-    set<point> A_i = A;
-    set<point> B_i = B;
+    unordered_set<point> A_i = A;
+    unordered_set<point> B_i = B;
     double epsilon = 1/(2*_log(1/delta, 3));
     double distance_scale = 2*n/(epsilon * omega);
     int i = 0;
@@ -307,10 +300,10 @@ namespace bipartite{
         }else{
             auto [A_i_new, B_i_new, new_matches] = Phase_Match(A_i, B_i, dist, distance_scale, stages);
             matches.insert(new_matches.begin(), new_matches.end());
-            distance_scale *= 1/(2*(1 + epsilon)*(1+epsilon)*pow(n, (pow(3,i)*delta) - 1));
+            distance_scale *= 1/(2*(1 + epsilon)*(1+epsilon)*pow(n, (pow(3,i-1)*delta)));
             match_size += int(new_matches.size());
             for(auto new_match : new_matches){
-                cost += dist(get<1>(new_match), get<0>(new_match));
+                cost += ceil(dist(get<1>(new_match), get<0>(new_match)));
             }
             A_i = A_i_new;
             B_i = B_i_new;
@@ -319,11 +312,11 @@ namespace bipartite{
     }
     return make_tuple(cost, matches);
 }
-    tuple<double, set<match>> bipartite_match_edge_cost_scaling(const set<point> &A, const set<point> &B,  distance_function &dist, double delta, double approximate_cost){
+    tuple<double, unordered_set<match>> bipartite_match_edge_cost_scaling(const unordered_set<point> &A, const unordered_set<point> &B,  distance_function &dist, double delta, double approximate_cost){
         const double n_approximate_match = approximate_cost;// Add a call to an n-approximate matching for A and B that runs in O(n^2) time
         double min_cost = INFINITY;
-        set<match> min_match;
-        for(int i = 0; i<ceil(_log(A.size(), 2)); i++){
+        unordered_set<match> min_match;
+        for(int i = 1; i<=int(ceil(_log(double(A.size()), 2)))-1; i++){
             auto [new_cost, matches] = __bipartite_match_edge_cost_scaling(A, B, dist, delta, n_approximate_match/pow(2, i));
             if(min_cost > new_cost){
                 min_cost = new_cost;
@@ -334,12 +327,12 @@ namespace bipartite{
     }
 
     double matrix_entry(point &a, point &b, vector<vector<double>> matrix){
-      return matrix[get<0>(a)-1][get<1>(b)-1];
+      return matrix[int(get<0>(a)-1)][int(get<1>(b)-1)];
     }
-    tuple<set<point>, set<point>, distance_function> convert_matrix_to_points(vector<vector<double>> &cost_matrix){
+    tuple<unordered_set<point>, unordered_set<point>, distance_function> convert_matrix_to_points(vector<vector<double>> &cost_matrix){
       // Only for matrices of size n x n
-      set<point> A;
-      set<point> B;
+      unordered_set<point> A;
+      unordered_set<point> B;
 
       for(int i = 0; i<cost_matrix.size(); i++){
           A.insert(make_tuple(i+1, 0));
