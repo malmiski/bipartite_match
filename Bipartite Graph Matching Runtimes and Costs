@@ -1,0 +1,324 @@
+Hungarian Algorithm:
+Bipartite set 1:
+Time: 0.002849 seconds
+cost: 13444
+
+Bipartite set 2:
+Time: 0.020441 seconds
+cost: 27176
+
+Bipartite set 3:
+Time: 0.143223 seconds
+cost: 58066
+
+Bipartite set 4:
+Time: 0.49613 seconds
+cost: 84106
+
+Bipartite set 5:
+Time: 1.65511 seconds
+cost: 126291
+
+Bipartite set 6:
+Time: 2.32396 seconds
+cost: 143796
+
+Bipartite set 7:
+Time: 7.31246 seconds
+cost: 213221
+
+Bipartite set 8:
+Time: 19.0257 seconds
+cost: 279913
+
+Bipartite set 9:
+Time: 66.1645 seconds
+cost: 427506
+
+Bipartite set 10:
+Time: 595.275 seconds
+cost: 851943
+
+Approximate:
+(\delta = 0.08) Bipartite set 1:
+Time: 0.080685 seconds
+cost: 13625
+
+(\delta = 0.08) Bipartite set 2:
+Time: 0.361418 seconds
+cost: 27516
+
+(\delta = 0.08) Bipartite set 3:
+Time: 1.29138 seconds
+cost: 58565
+
+(\delta = 0.08) Bipartite set 4:
+Time: 2.45684 seconds
+cost: 84722
+
+(\delta = 0.08) Bipartite set 5:
+Time: 6.94968 seconds
+cost: 127189
+
+(\delta = 0.08) Bipartite set 6:
+Time: 9.1094 seconds
+cost: 144909
+
+(\delta = 0.08) Bipartite set 7:
+Time: 19.2969 seconds
+cost: 214689
+
+(\delta = 0.08) Bipartite set 8:
+Time: 33.42 seconds
+cost: 281801
+
+(\delta = 0.08) Bipartite set 9:
+Time: 61.7579 seconds
+cost: 430999
+
+(\delta = 0.08) Bipartite set 10:
+Took: 113.634 seconds
+cost: 880532
+
+
+(\delta = 0.15) Bipartite set 1:
+Time: 0.050757 seconds
+cost: 13612
+
+(\delta = 0.15) Bipartite set 2:
+Time: 0.179243 seconds
+cost: 27584
+
+(\delta = 0.15) Bipartite set 3:
+Time: 0.85629 seconds
+cost: 58604
+
+(\delta = 0.15) Bipartite set 4:
+Time: 2.00893 seconds
+cost: 84921
+
+(\delta = 0.15) Bipartite set 5:
+Time: 5.62477 seconds
+cost: 127346
+
+(\delta = 0.15) Bipartite set 6:
+Time: 5.45392 seconds
+cost: 145109
+
+(\delta = 0.15) Bipartite set 7:
+Time: 16.3614 seconds
+cost: 214836
+
+(\delta = 0.15) Bipartite set 8:
+Time: 28.9846 seconds
+cost: 282381
+
+(\delta = 0.15) Bipartite set 9:
+Time: 48.3488 seconds
+cost: 431767
+
+(\delta = 0.15) Bipartite set 10:
+Took: 106.217 seconds
+cost: 880532
+
+(\delta = 0.3) Bipartite set 1:
+Time: 0.035243 seconds
+cost: 13738
+
+(\delta = 0.3) Bipartite set 2:
+Time: 0.128423 seconds
+cost: 27550
+
+(\delta = 0.3) Bipartite set 3:
+Time: 0.636415 seconds
+cost: 58854
+
+(\delta = 0.3) Bipartite set 4:
+Time: 1.48423 seconds
+cost: 85120
+
+(\delta = 0.3) Bipartite set 5:
+Time: 4.22884 seconds
+cost: 127582
+
+(\delta = 0.3) Bipartite set 6:
+Time: 4.40326 seconds
+cost: 145377
+
+(\delta = 0.3) Bipartite set 7:
+Time: 11.3594 seconds
+cost: 215561
+
+(\delta = 0.3) Bipartite set 8:
+Time: 18.6962 seconds
+cost: 283134
+
+(\delta = 0.3) Bipartite set 9:
+Time: 39.9214 seconds
+cost: 433765
+
+(\delta = 0.3) Bipartite set 10:
+Time: 112.543 seconds
+cost: 880532
+
+ANN:
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 1:
+Time: 0.711848 seconds
+cost: 13588
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 2:
+Time: 1.38289 seconds
+cost: 27441
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 3:
+Time: 7.00388 seconds
+cost: 58191
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 4:
+Time: 7.029 seconds
+cost: 84863
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 5:
+Time: 25.5866 seconds
+cost: 127097
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 6:
+Time: 23.4582 seconds
+cost: 145099
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 7:
+Time: 71.7389 seconds
+cost: 214897
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 8:
+Time: 72.5612 seconds
+cost: 282278
+
+(\delta = 0.15, \varepsilon = 0.25) Bipartite set 9:
+Time: 165.239 seconds
+cost: 430718
+
+(\delta = 0.15, \varepsilon = 0.25)Bipartite set 10:
+Time: 75.6553 seconds
+cost: 859193
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 1:
+Time: 0.049562 seconds
+cost: 13804
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 2:
+Time: 0.152651 seconds
+cost: 27868
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 3:
+Time: 1.04984 seconds
+cost: 58450
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 4:
+Time: 1.40632 seconds
+cost: 85974
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 5:
+Time: 4.89883 seconds
+cost: 128587
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 6:
+Time: 3.68177 seconds
+cost: 146764
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 7:
+Time: 9.02086 seconds
+cost: 217138
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 8:
+Time: 15.4766 seconds
+cost: 285100
+
+(\delta = 0.15, \varepsilon = 0.75) Bipartite set 9:
+Time: 34.5166 seconds
+cost: 434333
+
+(\delta = 0.15, \varepsilon = 0.75)Bipartite set 10:
+Time: 62.79 seconds
+cost: 872212
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 1:
+Time: 0.559463 seconds
+cost: 13715
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 2:
+Time: 1.73567 seconds
+cost: 27522
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 3:
+Time: 7.16605 seconds
+cost: 58691
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 4:
+Time: 14.8675 seconds
+cost: 84858
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 5:
+Time: 20.3598 seconds
+cost: 127498
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 6:
+Time: 45.5648 seconds
+cost: 145255
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 7:
+Time: 56.3214 seconds
+cost: 214816
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 8:
+Time: 193.225 seconds
+cost: 282291
+
+(\delta = 0.3, \varepsilon = 0.25) Bipartite set 9:
+Time: 503.119 seconds
+cost: 431334
+
+(\delta = 0.3, \varepsilon = 0.25)Bipartite set 10:
+Time: 72.1419 seconds
+cost: 859193
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 1:
+Time: 0.060457 seconds
+cost: 13919
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 2:
+Time: 0.1637 seconds
+cost: 27931
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 3:
+Time: 1.82037 seconds
+cost: 59265
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 4:
+Time: 2.80178 seconds
+cost: 85997
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 5:
+Time: 4.68481 seconds
+cost: 128540
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 6:
+Time: 6.33577 seconds
+cost: 146846
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 7:
+Time: 8.11285 seconds
+cost: 217458
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 8:
+Time: 26.8914 seconds
+cost: 284823
+
+(\delta = 0.3, \varepsilon = 0.75) Bipartite set 9:
+Time: 22.97 seconds
+cost: 435455
+
+(\delta = 0.3, \varepsilon = 0.75)Bipartite set 10:
+Time: 60.5452 seconds
+cost: 872212

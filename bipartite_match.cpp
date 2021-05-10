@@ -1,13 +1,4 @@
-#include <map>
-#include <unordered_set>
-#include <functional>
-#include <tuple>
-#include <cmath>
-#include <algorithm>
-#include <vector>
-#include "Hungarian.h"
 #include "bipartite_match.h"
-using namespace std;
 namespace bipartite{
   int scaled(double distance, double distance_scale){
       return int(ceil(distance*distance_scale));
@@ -19,8 +10,21 @@ namespace bipartite{
 
     template<typename T>
     unordered_set<T> symmetric_difference(unordered_set<T> &a, unordered_set<T> &b) {
+//        unordered_set<T> diff_set(a.size() + b.size());
+//        set_symmetric_difference(a.begin(), a.end(), b.begin(), b.end(), inserter(diff_set, diff_set.begin()));
+//        return diff_set;
         unordered_set<T> diff_set(a.size() + b.size());
-        set_symmetric_difference(a.begin(), a.end(), b.begin(), b.end(), inserter(diff_set, diff_set.begin()));
+        while(!a.empty()){
+            auto a_s = *a.begin();
+            a.erase(a_s);
+            if(b.count(a_s) == 1){
+                a.erase(a_s);
+                b.erase(a_s);
+            }else{
+                diff_set.insert(a_s);
+            }
+        }
+        diff_set.insert(b.begin(), b.end());
         return diff_set;
     }
 
@@ -52,20 +56,20 @@ namespace bipartite{
 
 
   unordered_set<match> augment(unordered_set<match> &matches, path &aug_path, unordered_set<point> &A, map<point, int> &point_to_index, vector<int> &weights){
-    unordered_set<match> aug_path_set;
-    for(int i = 0; i < aug_path.size() - 1; i++){
-      aug_path_set.insert(make_tuple(aug_path[i], aug_path[i+1]));
-      int index = point_to_index[aug_path[i]];
-      if(index >= A.size()){
-        // Decrement the weights of vertices in B that are
-        // in the augmenting path to maintain 1-feasible matching
-        weights[index] -= 1;
+      unordered_set<match> aug_path_set;
+      for(int i = 0; i < aug_path.size() - 1; i++){
+          int index = point_to_index[aug_path[i]];
+          if(index >= A.size()) aug_path_set.insert(make_tuple(aug_path[i], aug_path[i+1]));
+          else aug_path_set.insert(make_tuple(aug_path[i+1], aug_path[i]));
+          if(index >= A.size()){
+              // Decrement the weights of vertices in B that are
+              // in the augmenting path to maintain epsilon-feasible matching
+              weights[index] -= 1;
+          }
       }
-    }
-    unordered_set<match> new_match;
-    new_match = symmetric_difference<match>(matches, aug_path_set);
-    return new_match;
-  }
+      unordered_set<match> new_match;
+      new_match = symmetric_difference<match>(matches, aug_path_set);
+      return new_match;  }
 
   // NOte might need to alter how we are counting vertices as visited, in case we need to determine the
   void PATH_DFS_HELPER(point &start, path &_path, vector<path> &paths, map<int, unordered_set<edge>> &bipartite_graph, vector<point> &A,  unordered_set<point> &free_A, map<point, point> &match_map, map<point, int> &pair_to_index, unordered_set<point> &visited, unordered_set<edge> &eligible_edges){

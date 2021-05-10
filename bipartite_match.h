@@ -4,6 +4,15 @@
 
 #ifndef BIPARTITE_MATCH_BIPARTITE_MATCH_H
 #define BIPARTITE_MATCH_BIPARTITE_MATCH_H
+#include <map>
+#include <unordered_set>
+#include <functional>
+#include <tuple>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include "Hungarian.h"
+using namespace std;
 namespace bipartite {
     using point = tuple<double, double>;
     using match = tuple<point, point>;
@@ -28,6 +37,7 @@ namespace bipartite {
     tuple<unordered_set<point>, unordered_set<point>, unordered_set<match>> Phase_Match(unordered_set<point> &A, unordered_set<point> &B, distance_function &dist, double distance_scale, int stages);
     tuple<double, unordered_set<match>> bipartite_match_edge_cost_scaling(const unordered_set<point> &A, const unordered_set<point> &B,  distance_function &dist, double delta, double omega);
     tuple<double, unordered_set<match>> bipartite_match_edge_cost_scaling(const unordered_set<point> &A, const unordered_set<point> &B,  distance_function &dist, double delta);
+    tuple<double, unordered_set<match>> __bipartite_match_edge_cost_scaling(const unordered_set<point> &A, const unordered_set<point> &B,  distance_function &dist, double delta, double omega);
     double matrix_entry(point &a, point &b, vector<vector<double>> matrix);
     tuple<unordered_set<point>, unordered_set<point>, distance_function> convert_matrix_to_points(vector<vector<double>> &cost_matrix);
 
